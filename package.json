@@ -1,0 +1,40 @@
+{
+  "name": "gulp-sprites-2x",
+  "version": "0.0.1",
+  "description": "A Gulp plugin that generates image sprites with Retina support",
+  "keywords": [
+    "gulpplugin",
+    "gulp",
+    "sprites",
+    "images",
+    "css",
+    "retina"
+  ],
+  "homepage": "https://github.com/steadicat/gulp-sprites-2x",
+  "bugs": "https://github.com/steadicat/gulp-sprites-2x/issues",
+  "author": {
+    "name": "Stefano J. Attardi",
+    "email": "",
+    "url": "https://github.com/steadicat"
+  },
+  "main": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/steadicat/gulp-sprites-2x.git"
+  },
+  "dependencies": {
+    "gulp.spritesmith": "^1.1.1",
+    "merge-stream": "^0.1.5",
+    "through2": "^0.5.1",
+    "vinyl-source-stream": "^0.1.1"
+  },
+  "engines": {
+    "node": ">=0.8.0",
+    "npm": ">=1.2.10"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ]
+}
