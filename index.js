@@ -2,6 +2,7 @@ var through = require('through2');
 var merge = require('merge-stream');
 var stream = require('vinyl-source-stream');
 var spritesmith = require('gulp.spritesmith');
+var path = require('path');
 
 var x2selector = '@media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx), (min-resolution: 144dpi)';
 
@@ -59,11 +60,21 @@ function getSprite(sprites, name, x2) {
   return sprites[name];
 }
 
-var path = require('path');
-
 module.exports = function(options) {
   var sprites1x = {};
   var sprites2x = {};
+
+  var waiting = 0;
+  function pipe(stream, out) {
+    waiting++;
+    stream.on('data', out.push.bind(out));
+    stream.on('end', function(obj) {
+      waiting--;
+      if (waiting === 0) {
+        out.push(null);
+      }
+    });
+  }
 
   return through.obj(function(file, enc, cb) {
     var spriteName = getSpriteName(file.path);
@@ -71,22 +82,18 @@ module.exports = function(options) {
     var sprite = getSprite(is2x(fileName) ? sprites2x : sprites1x, spriteName, is2x(fileName));
     sprite.write(file);
     cb();
-
-  }, function() {
+  }, function(cb) {
     var out = this;
-    var merged = merge();
     var cssFiles = {};
+
     Object.keys(sprites1x).forEach(function(k) {
-      merged.add(sprites1x[k].img);
+      pipe(sprites1x[k].img, out);
       var cssStream = sprites1x[k].css;
       if (sprites2x[k]) {
-        merged.add(sprites2x[k].img);
+        pipe(sprites2x[k].img, out);
         cssStream = merge(cssStream, sprites2x[k].css);
       }
-
-      var outCssStream = stream();
-      //merged.add(outCssStream);
-
+      waiting++;
       cssStream.on('data', function(file) {
         cssFiles[k] || (cssFiles[k] = {});
         var fileName = path.basename(file.path, path.extname(file.path));
@@ -98,17 +105,14 @@ module.exports = function(options) {
           content += x2selector + ' {\n' + cssFiles[k]['2x'].contents.toString() + '}';
         }
         cssFiles[k]['1x'].contents = new Buffer(content);
-        merged.push(cssFiles[k]['1x']);
-        //outCssStream.emit('end');
+        out.push(cssFiles[k]['1x']);
+        waiting--;
+        if (waiting === 0) {
+          out.push(null);
+        }
       });
       sprites1x[k].end();
       sprites2x[k] && sprites2x[k].end();
-    });
-    merged.on('data', function(data) {
-      out.push(data);
-    });
-    merged.on('end', function() {
-      out.emit('end');
     });
   });
 };
