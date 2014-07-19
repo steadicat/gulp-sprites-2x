@@ -3,7 +3,7 @@ var merge = require('merge-stream');
 var stream = require('vinyl-source-stream');
 var spritesmith = require('gulp.spritesmith');
 
-var x2selector = '@media (-webkit-min-device-pixel-ratio: 1.5), (-moz-min-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3 / 2), (min-device-pixel-ratio: 1.5), (min-resolution: 144dpi)';
+var x2selector = '@media (-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (min-resolution: 1.5dppx), (min-resolution: 144dpi)';
 
 function backgroundSize(width, height) {
   var size = width+'px '+height+'px';
