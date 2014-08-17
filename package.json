@@ -1,6 +1,6 @@
 {
   "name": "gulp-sprites-2x",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Gulp plugin that generates image sprites with Retina support",
   "keywords": [
     "gulpplugin",

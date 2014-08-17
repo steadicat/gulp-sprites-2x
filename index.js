@@ -55,7 +55,7 @@ function getSprite(sprites, name, x2) {
     imgName: name + (x2 ? '@2x': '') + '.png',
     cssName: name + (x2 ? '@2x': '') + '.css',
     algorithm: 'binary-tree',
-    padding: 1,
+    padding: 2,
     cssTemplate: spriteTemplate(name)
   });
   return sprites[name];
