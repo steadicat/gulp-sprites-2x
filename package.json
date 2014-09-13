@@ -1,6 +1,6 @@
 {
   "name": "gulp-sprites-2x",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A Gulp plugin that generates image sprites with Retina support",
   "keywords": [
     "gulpplugin",
@@ -23,10 +23,9 @@
     "url": "git://github.com/steadicat/gulp-sprites-2x.git"
   },
   "dependencies": {
-    "gulp.spritesmith": "^1.1.1",
+    "gulp.spritesmith": "^1.2.0",
     "merge-stream": "^0.1.5",
-    "through2": "^0.5.1",
-    "vinyl-source-stream": "^0.1.1"
+    "through2": "^0.6.1"
   },
   "engines": {
     "node": ">=0.8.0",
